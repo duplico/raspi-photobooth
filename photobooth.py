@@ -37,18 +37,30 @@ with open('photo.jpg', 'w') as photo_file:
 #image = Image.open(photo_buffer)
 
 with open('photo.jpg', 'r') as photo_file:
+    # The width of the paper is 384 px
+    # 4:3 landscape on the paper is 384x288
+    # 4:3 portrait on the paper is 512x384
+    # If we want to crop landscape into portrait, we need 683x512.
+
+#    image = image.rotate(90, expand=True)
+
     image = Image.open(photo_file)
-    image = image.resize((512, 384))
-    image = image.rotate(90, expand=True)
+    doubled_image = image.resize((683, 512))
+    portrait_doubled_image = doubled_image.crop((150,0,534,512))
+
+    image = portrait_doubled_image
+
     colorer = ImageEnhance.Color(image)
     sharpener = ImageEnhance.Sharpness(colorer.enhance(0))
     image = sharpener.enhance(2.0)
 
     contraster = ImageEnhance.Contrast(image)
 
-    at.println("New base image:")
-    at.printImage(image, LaaT=True)
-    at.println("Contrast 0.5")
-    at.printImage(contraster.enhance(0.5), LaaT=True)
-    at.println("Contrast 1.5")
-    at.printImage(contraster.enhance(1.5), LaaT=True)
+#    at.println("New base image:")
+#    at.printImage(image, LaaT=True)
+#    at.println("Contrast 1.5")
+#    at.printImage(contraster.enhance(1.5), LaaT=True)
+    at.println("Contrast 2.0")
+    at.printImage(contraster.enhance(2.0), LaaT=True)
+#    at.println("Contrast 2.5")
+#    at.printImage(contraster.enhance(2.5), LaaT=True)
