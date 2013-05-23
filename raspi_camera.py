@@ -23,11 +23,16 @@ CMD_RESET = 0x26
 CMD_TAKEPHOTO = 0x36
 CMD_READBUFF = 0x32
 CMD_GETBUFFLEN = 0x34
+CMD_WRITEDATA = 0x31
 
 FBUF_CURRENTFRAME = 0x00
 FBUF_NEXTFRAME = 0x01
 
 FBUF_STOPCURRENTFRAME = 0x00
+
+RES_VGA = 0x00
+RES_QVGA = 0x11
+res_QQVGA = 0x22
 
 getversioncommand = [COMMANDSEND, SERIALNUM, CMD_GETVERSION, COMMANDEND]
 resetcommand = [COMMANDSEND, SERIALNUM, CMD_RESET, COMMANDEND]
@@ -35,6 +40,7 @@ takephotocommand = [COMMANDSEND, SERIALNUM, CMD_TAKEPHOTO, 0x01,
                     FBUF_STOPCURRENTFRAME]
 getbufflencommand = [COMMANDSEND, SERIALNUM, CMD_GETBUFFLEN, 0x01,
                      FBUF_CURRENTFRAME]
+setresolutioncommand = [COMMANDSEND, SERIALNUM, CMD_WRITEDATA, 0x05, 0x04, 0x01, 0x00, 0x19, RES_VGA]
 
 s = serial.Serial(PORT, baudrate=BAUD, timeout = TIMEOUT)
 
@@ -47,6 +53,15 @@ def checkreply(r, b):
 
 def reset():
     cmd = ''.join( map( chr, resetcommand ) )
+    s.write(cmd)
+    reply = s.read(100)
+    r = list(reply)
+    if checkreply( r, CMD_RESET ):
+        return True
+    return False
+
+def setres():
+    cmd = ''.join( map( chr, setresolutioncommand ) )
     s.write(cmd)
     reply = s.read(100)
     r = list(reply)
