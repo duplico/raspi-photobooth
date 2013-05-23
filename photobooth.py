@@ -8,7 +8,6 @@ import raspi_camera
 
 at = Adafruit_Thermal()
 
-
 PORT = raspi_camera.PORT
 BAUD = raspi_camera.BAUD
 TIMEOUT = raspi_camera.TIMEOUT
