@@ -6,6 +6,9 @@ from PIL import Image
 from Adafruit_Thermal import Adafruit_Thermal
 import raspi_camera
 
+at = Adafruit_Thermal()
+
+
 PORT = raspi_camera.PORT
 BAUD = raspi_camera.BAUD
 TIMEOUT = raspi_camera.TIMEOUT
@@ -15,12 +18,19 @@ raspi_camera.reset()
 assert raspi_camera.getversion()
 
 # TODO: wrap in function
-success = takephoto()
+success = raspi_camera.takephoto()
 assert success
 
 photo_bytes = raspi_camera.readbuffer(raspi_camera.getbufferlength())
-photo_buffer = StringIO(photo_bytes)
-image = Image.open(photo_buffer)
+photo_data = ''.join(photo_bytes)
+photo_buffer = StringIO()
+photo_buffer.write(''.join(photo_bytes))
 
-at = Adafruit_Thermal()
-at.printImage(image)
+with open('photo.jpg', 'w') as photo_file:
+    photo_file.write(photo_data)
+
+#image = Image.open(photo_buffer)
+
+with open('photo.jpg', 'r') as photo_file:
+    image = Image.open(photo_file)
+    at.printImage(image, LaaT=True)
