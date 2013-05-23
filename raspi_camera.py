@@ -36,6 +36,8 @@ takephotocommand = [COMMANDSEND, SERIALNUM, CMD_TAKEPHOTO, 0x01,
 getbufflencommand = [COMMANDSEND, SERIALNUM, CMD_GETBUFFLEN, 0x01,
                      FBUF_CURRENTFRAME]
 
+s = serial.Serial(PORT, baudrate=BAUD, timeout = TIMEOUT)
+
 def checkreply(r, b):
     r = map( ord, r )
     return r and \
