@@ -9,8 +9,12 @@ import raspi_camera
 
 at = Adafruit_Thermal()
 
-at.println("------PP8------")
-at.println(datetime.now().strftime("%I:%M %p, %x"))
+with open('pp8.bmp') as pp8_file:
+    image = Image.open(pp8_file)
+    resized_image = image.resize((384, 94))
+    at.printImage(resized_image, LaaT=True)
+
+#at.println("------PP8------")
 
 PORT = raspi_camera.PORT
 BAUD = raspi_camera.BAUD
@@ -26,6 +30,8 @@ assert raspi_camera.getversion()
 success = raspi_camera.takephoto()
 assert success
 
+# TODO: signal "taken"???
+
 photo_bytes = raspi_camera.readbuffer(raspi_camera.getbufferlength())
 photo_data = ''.join(photo_bytes)
 photo_buffer = StringIO()
@@ -33,6 +39,7 @@ photo_buffer.write(''.join(photo_bytes))
 
 with open('photo.jpg', 'w') as photo_file:
     photo_file.write(photo_data)
+
 
 #image = Image.open(photo_buffer)
 
@@ -60,7 +67,10 @@ with open('photo.jpg', 'r') as photo_file:
 #    at.printImage(image, LaaT=True)
 #    at.println("Contrast 1.5")
 #    at.printImage(contraster.enhance(1.5), LaaT=True)
-    at.println("Contrast 2.0")
+#    at.println("Contrast 2.0")
     at.printImage(contraster.enhance(2.0), LaaT=True)
 #    at.println("Contrast 2.5")
 #    at.printImage(contraster.enhance(2.5), LaaT=True)
+at.println(datetime.now().strftime("%I:%M %p, %x"))
+at.println()
+at.println()
