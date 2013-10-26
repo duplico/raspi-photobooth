@@ -22,7 +22,8 @@ TIMEOUT = raspi_camera.TIMEOUT
 
 s = serial.Serial(PORT, baudrate=BAUD, timeout=TIMEOUT)
 
-assert raspi_camera.setres(raspi_camera.RES_VGA)
+#assert raspi_camera.setres(raspi_camera.RES_VGA)
+raspi_camera.setres(raspi_camera.RES_VGA)
 raspi_camera.reset()
 assert raspi_camera.getversion()
 
