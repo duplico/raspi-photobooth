@@ -1,6 +1,7 @@
 import pickle
 import os
 import sys
+import datetime
 
 from StringIO import StringIO
 from datetime import datetime
@@ -56,7 +57,7 @@ for path in (
         contraster = ImageEnhance.Contrast(image)
         at.printImage(contraster.enhance(2.0), LaaT=True)
         previous_files.add(path)
-        at.println("     Happy Halloween 2013")
+        at.println("     Happy Halloween %d" % datetime.date.today().year)
         at.println("")
         at.println("")
 
