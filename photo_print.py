@@ -25,9 +25,9 @@ def print_img(path):
         (width, height) = image.size
 
     if width > 384:
-        image = image.resize((384, height - (width - 384)), Image.NEAREST)
+        image = image.resize((384, int(height * (384.0 / width))), Image.NEAREST)
 
-    image.thumbnail((340, 340))
+    #image.thumbnail((340, 340))
     colorer = ImageEnhance.Color(image)
     sharpener = ImageEnhance.Sharpness(colorer.enhance(0))
     image = sharpener.enhance(2.0)
